@@ -1,0 +1,146 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Support / FAQs {% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: "IBM Plex Sans", sans-serif;
+        background-color: rgba(0, 0, 0, .1);
+        margin: 0; /* Remove default margin */
+    }
+
+    .rounded-container {
+        text-align: center;
+        padding-bottom: 80px;
+    }
+
+    h2 {
+        margin: 20px auto 40px; /* Adjusted margin for h2 */
+        font-size: 28px; /* Adjusted font size for h2 */
+        font-weight: 300;
+        letter-spacing: 2px;
+        line-height: 1.5;
+    }
+
+    details {
+        width: 75%;
+        max-width: 700px; /* Removed min-height and adjusted max-width */
+        padding: 20px 20px 20px 20px; /* Adjusted padding */
+        margin: 0 auto;
+        position: relative;
+        font-size: 18px; /* Adjusted font size for details content */
+        border: 1px solid rgba(0, 0, 0, .1);
+        border-radius: 15px;
+        box-sizing: border-box;
+        transition: all .3s;
+    }
+
+    details + details {
+        margin-top: 20px;
+    }
+
+    details[open] {
+        background-color: #f6f7f8;
+        box-shadow: 2px 2px 20px rgba(0, 0, 0, .2);
+    }
+
+    details p {
+        color: #96999d;
+        font-weight: 300;
+        margin-top: 10px; /* Added margin to the top of the paragraph */
+    }
+
+    summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 10px;
+    position: relative; /* Added position:relative */
+}
+
+summary::before {
+    content: '\200B'; /* Added zero-width space content to ensure space for the arrow */
+}
+
+summary:focus {
+    outline: none;
+}
+
+summary:focus::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+.control-icon {
+    fill: rebeccapurple;
+    transition: .3s ease;
+    pointer-events: none;
+}
+
+.control-icon-close {
+    display: none;
+}
+
+details[open] .control-icon-close {
+    display: initial;
+    transition: .3s ease;
+}
+
+details[open] .control-icon-expand {
+    display: none;
+}
+
+</style>
+
+<div class="rounded-container">
+    <a href="{% url 'food:feedback' %}" class="btn btn-success">Feedback Form</a>
+    <h2 class="pt-2">Frequently Asked Questions</h2>
+    <br>
+    <div style="visibility: hidden; position: absolute; width: 0px; height: 0px;">
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <symbol viewBox="0 0 24 24" id="expand-more">
+                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" /><path d="M0 0h24v24H0z" fill="none" />
+            </symbol>
+            <symbol viewBox="0 0 24 24" id="close">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" /><path d="M0 0h24v24H0z" fill="none" />
+            </symbol>
+        </svg>
+    </div>
+
+    <details>
+        <summary>
+          Our contact information
+          <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" /></svg>
+        </summary>
+        <p>Email: royaltaj.care@gmail.com</p>
+        <p>Whatsapp: +923144451366 / +923134891466</p>
+      </details>
+
+    {% for faq in faqs %}
+        <details>
+            <summary>
+                {{ faq.question }}
+                <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" /></svg>
+            </summary>
+            <p>{{ faq.answer }}</p>
+        </details>
+    {% endfor %}
+      
+
+      
+
+</div>
+{% endblock %}

@@ -1,0 +1,191 @@
+.logo {
+    margin-bottom: 5px;
+}
+
+.title{
+    margin:50px;
+    text-align: center;
+}
+
+.picture{
+    width: 250px;
+    border-radius: 20%;
+    height: 150px;
+}
+
+.del {
+    position: absolute;
+    right: 30px;
+    background-color: red;
+    color: white;
+    width: 20px;
+    height: 23px;
+    padding-bottom: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.item {
+    margin-top: 20px;
+  }
+
+.del:hover {
+    background-color: rgb(255, 124, 124);
+}
+
+li {
+    display: flex;
+}
+
+/* Center-align the password help text */
+.password-help-text {
+    text-align: center;
+    /* Add any other styling as needed */
+}
+
+.rounded-container {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    text-align: left; /* Align text to the left */
+    line-height: 50px; /* Center content vertically */
+    margin: 20px 20px 20px 20px; 
+}
+
+.custom-input {
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Adjust the value to control the roundness of edges */
+    padding: 5px; /* Adjust the value to control the height */
+    width: 40%; /* Adjust the value to control the width */
+    margin-top: 20px;
+    margin-left: 25px;
+    margin-bottom: 25px;
+}
+
+.rounded-container h1 {
+    margin-left: 30px; /* Add left margin to the text */
+}
+
+.rounded-container h3 {
+    margin-left: 25px; /* Add left margin to the text */
+}
+
+.rounded-container h5 {
+    margin-left: 30px; /* Add left margin to the text */
+}
+
+table.table tbody tr td {
+    padding: 5px;
+}
+
+.notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#notification {
+    position: fixed;
+    z-index: 9999; /* Adjust the value as needed */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Add other styles as needed */
+}
+
+/* Styles for the top-poster section */
+
+.top-poster {
+    background-image: url('{% static "path-to-your-image.jpg" %}'); /* Replace with the path to your static image */
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+}
+
+.top-poster h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.top-poster p {
+    font-size: 1.2em;
+}
+
+/* Responsive styles for devices with a screen width of 600px or less */
+@media only screen and (max-width: 600px) {
+    .top-poster {
+        height: 200px;
+    }
+    .top-poster h1 {
+        font-size: 1.5em;
+    }
+    .top-poster p {
+        font-size: 1em;
+    }
+}
+
+.bds-c-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    padding: 0 64px;
+    max-width: 1440px;
+    margin: auto;
+    height: 100%;
+}
+
+.bds-c-hero__content-container,
+.bds-c-hero__image-container {
+    grid-column: span 6;
+}
+
+.bds-c-hero__header {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.bds-c-hero__image-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hero-section {
+    height: 30vh; /* 30% of the viewport height */
+    padding: 20px;
+}
+
+.bds-c-hero__header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.bds-c-hero__image {
+    max-height: 100%;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dark-theme {
+    background-color: #343a40; /* Bootstrap dark background */
+    color: #ffffff; /* White text color */
+}
+

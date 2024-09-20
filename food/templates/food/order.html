@@ -1,0 +1,70 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Place order {% endblock %}
+
+{% block content %}
+<style>
+    .rounded-container-inner {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    /* Media Query for smaller screens */
+    @media (max-width: 768px) {
+        .rounded-container {
+            width: 100% !important;
+        }
+    }
+</style>
+<div class="rounded-container" style="text-align: center; width: 50%; margin: 0 auto; margin-top: 20px;">
+    {% if user.is_authenticated %}
+    <h2 style="padding: 20px;">Welcome {{ user.first_name }}</h2>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-7" style="text-align: center; margin: 0 auto;">
+            <h2 class="pl-4 pt-3 p-3">Order</h2>
+
+            <!-- Add the container element for the shopping cart table -->
+            <div class="row" id="cartContainer">
+                <!-- The shopping cart table will be inserted here -->
+            </div>
+            <h5>Delivery Fees: 15 TL</h5>
+            <h2 id="total">Total:</h2>
+
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+    <div>
+        <small>Default delivery point for your university is:</small>
+        <br>
+        <input type="text" name="address" id="address" placeholder="Dorm Number" required style="margin: 20px; width: 80%; max-width: 400px;" disabled value="{% if user.university == 'Sabanci' %}Sabanci - Medline{% elif user.university == 'Ozyegin' %}Ozyegin - dormitory entrance{% endif %}">
+        <br>
+        <small>If you ordered any chicken or vegetarian dish(es), please specify if you want roti or rice with each item</small>
+        <input name="message" id="message" placeholder="Note / Message to the restaurant" rows="5" style="margin: 20px; width: 80%; max-width: 400px;"></input>
+    </div>
+    <div class="ml-auto m-4" style="text-align: center; margin: 0 auto;">
+        <button type="submit" class="btn btn-success" id="submitBtn" style="margin-bottom: 20px; width: 150px; height: 80px; font-size: 20px;" onclick="order()">Place Order</button>
+    </div>
+    {% else %}
+    <div class="ml-auto m-4">
+        <h5>You need to login before placing an order!</h5>
+    </div>
+    {% endif %}
+
+    <!-- Display any messages or errors sent by the view -->
+    {% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+
+<!-- Include the cart.js script at the end -->
+<script src="{% static 'food/js/cart.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} All items {% endblock %}
+
+{% block content %}
+<div class="rounded-container" style="text-align: center; padding-bottom: 80px;">
+    <h1 style="padding-bottom: 40px; padding-top: 40px;">Items to make</h1>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;  /* Center the table */
+            border-radius: 10px;  /* Add rounded border */
+            overflow: hidden;  /* Ensure the border radius is applied */
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #381f1f;
+            text-align: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        td {
+            padding-left: 20px;  /* Adjust the value to your preference */
+            font-size: 20px;
+        }
+    </style>
+
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+        </tr>
+        {% for item_name, quantity in items.items %}
+        <tr>
+            <td>{{ item_name }}</td>
+            <td>{{ quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

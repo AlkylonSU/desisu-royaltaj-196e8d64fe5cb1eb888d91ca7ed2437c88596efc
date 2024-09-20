@@ -1,0 +1,67 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Successful order {% endblock %}
+
+{% block content %}
+<style>
+    .box {
+        width: 90%;
+        margin: auto;
+        border: 2px solid black;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+    }
+
+    .with-frame {
+        border: 2px solid black;
+    }
+</style>
+<div class="rounded-container" style="text-align: center; width: 95%; margin: 0 auto; margin-top:40px;">
+    <h1 class="pt-2">Please make the payment for your order below to place your order</h1>
+    <h1 class="pt-2 btn-danger">Your order will not be placed until you make the payment</h1>
+    <br>
+    <h4>Order number: {{ orderNum }} </h4>
+    <h4>Your order:</h4>
+    {% for item in items %}
+        <h4>{{ item.0 }}</h4>
+    {% endfor %}
+    <br>
+    <h4>Total: {{ total|add:15 }} TL</h4>
+    <br>
+    <!-- Form Start -->
+    <form method="post" enctype="multipart/form-data" action="{% url 'food:payment_submission' %}">
+        {% csrf_token %}
+        <input type="hidden" name="order_num" value="{{ orderNum }}">
+
+        <!-- Box 1 Start -->
+        <div class="box">
+
+            <h6>To confirm your order, kindly make the payment to the following IBAN:</h6>
+            <h6>TR18 0004 6007 1388 8000 1396 39</h6>
+            <h6>Title: Muhammad Mustafa Akhter</h6>
+            <h6>Please include your Order Number "{{ orderNum }}" in the payment reference to ensure accurate processing.</h6>
+            <br>
+            <h6>Upload the payment receipt below:</h6>
+            <input class="pt-3 mb-4" type="file" name="receipt" id="image" accept="image/*" required>
+            <input type="submit" class="btn btn-success mb-4" value="Submit">
+            <h6>Your payment confirmation is essential for the successful completion of your order. Once the payment is received, we will proceed with the confirmation and notify you by email.</h6>
+        </div>
+        <!-- Box 1 End -->
+    </form>
+        <!-- Box 2 Start -->
+        <div class="box with-frame">
+            <h4>**Important Note:**</h4>
+            <h6>Our delivery system operates on a group order basis. If the threshold isn't reached by 6:00 PM, your payment will be refunded, and you will be notified. We'll keep you informed throughout the process.</h6>
+            <br>
+            <h6>For support, you can reach out on the following WhatsApp numbers:</h6>
+            <h6>1. +923144451366</h6>
+            <h6>2. +923134891466</h6>
+        </div>
+        <!-- Box 2 End -->
+
+
+    <!-- Form End -->
+
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!-- food/reply.html -->
+
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Reply to Feedback {% endblock %}
+
+{% block content %}
+  <div class="rounded-container" style="text-align: center; padding-bottom: 80px;">
+    <style>
+      form {
+        width: 70%;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+    </style>
+
+    <h2>Reply to {{ feedback_item.name }}'s Feedback</h2>
+    <form action="{% url 'food:reply' feedback_item.id %}" method="post">
+      {% csrf_token %}
+      <label for="reply">Reply:</label>
+      <textarea id="reply" name="reply" rows="4" required></textarea>
+
+      <div class="form-group">
+        <input type="submit" value="Send Reply" class="btn btn-primary" style="width: 100%;">
+      </div>
+    </form>
+  </div>
+{% endblock %}

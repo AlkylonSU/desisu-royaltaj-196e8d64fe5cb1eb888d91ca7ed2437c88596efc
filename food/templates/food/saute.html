@@ -1,0 +1,109 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Mixed Chicken Saute Dishes {% endblock %}
+
+{% block content %}
+<head>
+    <style>
+        .cardfood {
+            background-color: #373F47;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            /* Add box shadow */
+            color: white;
+            border-radius: 10px;
+            /* Add rounded corners to the card */
+            margin-bottom: 20px;
+            /* Add margin between cards */
+        }
+
+        .cardfood img {
+            border-top-left-radius: 10px;
+            /* Add rounded corners to the top-left of the image */
+            border-top-right-radius: 10px;
+            /* Add rounded corners to the top-right of the image */
+        }
+
+        .button {
+            border: none;
+            color: white;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 8px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .btn-orange {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+    <h2 class = "title">Mixed Chicken Saute Dishes:</h2>
+
+    <div class="modal fade" id="sauteDetailsModal" tabindex="-1" role="dialog" aria-labelledby="sauteDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sauteDetailsModalLabel">Chicken Saute Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Content for saute details goes here -->
+                    <h5 id="modalsauteName"></h5>
+                    <div>
+                        <img class="modal-picture" id="modalsautePicture" src="" alt="Saute Image">
+                    </div>
+                    <p id="modalsauteDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            {% for saute in saute %}
+            <div class="col-md-4 mb-3" style="padding: 20px;">
+                <div class="cardfood">
+                    <img src="/media/{{ saute.CSimage }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="...">
+                    <div id="notification" class="notification">Notification Message</div>
+                    <div class="cardfood-body">
+                        <h2 class="cardfood-title" style="padding-left: 20px; padding-top: 20px;" id="st{{saute.id}}">{{ saute.name }}</h2>
+                        <h5 class="cardfood-text" style="padding-left: 20px;" id="sp{{saute.id}}">{{ saute.price }}</h5>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="button btn-orange me-2" style="margin-bottom: 10px;"
+                                onclick="addSaute('{{ saute.id }}')">
+                                <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png"
+                                    alt="add" />
+                            </button>
+                            <button type="button" class="button btn-orange"
+                                style="margin-bottom: 10px; margin-right: 10px;"
+                                onclick="showDetails('{{ saute.id }}', '{{ saute.name }}', '{{ saute.description }}', '/media/{{ saute.CSimage }}')">
+                                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png"
+                                    alt="menu-2" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{% static 'food/js/order.js' %}"></script>
+    <script>
+        function showDetails(sauteId, sauteName, sauteDescription, sImage) {
+            // Update modal content
+            document.getElementById('modalsauteName').innerText = sauteName;
+            document.getElementById('modalsauteDescription').innerText = sauteDescription;
+            document.getElementById('modalsautePicture').src = sImage;
+            // Show the modal
+            $('#sauteDetailsModal').modal('show');
+        }
+    </script>
+{% endblock %}

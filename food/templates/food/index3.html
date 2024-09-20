@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Star Wars Imperial Army Product Slider | Nothing4us</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title> Star Wars Imperial Army Product Slider | Nothing4us </title>
+  <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css'><link rel="stylesheet" href="{% static 'food/css/index.css' %}">
+
+</head>
+<body>
+<div class="wrapper">
+  <div class="content">
+    <div class="bg-shape">
+      <img src="#" alt="">
+    </div>
+
+    <div class="product-img">
+      {% for item in starters %}
+      <div class="product-img__item" id="img{{ item.id }}">
+        <img src="/media/{{ item.Simage }}" alt="star wars" class="product-img__img">
+      </div>
+      {% endfor %}
+    </div>
+
+
+    <div class="product-slider">
+      <button class="prev disabled">
+        <span class="icon">
+          <svg class="icon icon-arrow-right"><use xlink:href="#icon-arrow-left"></use></svg>
+        </span>
+      </button>
+      <button class="next">
+        <span class="icon">
+          <svg class="icon icon-arrow-right"><use xlink:href="#icon-arrow-right"></use></svg>
+        </span>
+      </button>
+
+      <div class="product-slider__wrp swiper-wrapper">
+        {% for item in starters %}
+        <div class="product-slider__item swiper-slide" data-target="img{{ item.id }}">
+          <div class="product-slider__card">
+            <img src="https://e1.pxfuel.com/desktop-wallpaper/655/684/desktop-wallpaper-dark-green-plain-green.jpg" alt="star wars" class="product-slider__cover">
+            <div class="product-slider__content">
+              <h1 class="product-slider__title">
+                {{ item.name }}
+              </h1>
+              <span class="product-slider__price">{{ item.price }}</span>
+              <div class="product-ctr">
+
+                <span class="hr-vertical"></span>
+
+                <div class="product-inf">
+                </div>
+
+              </div>
+
+              <div class="product-slider__bottom">
+                <button class="product-slider__cart">
+                  ADD TO CART
+                </button>
+
+                <button class="product-slider__fav js-fav"><span class="heart"></span> ADD TO WISHLIST</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<svg class="hidden" hidden>
+  <symbol id="icon-arrow-left" viewBox="0 0 32 32">
+    <path d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z"></path>
+  </symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 32 32">
+    <path d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.664z"></path>
+  </symbol>
+</svg>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js'></script>
+<script src="{% static 'food/js/order.js' %}"></script>
+<script src="{% static 'food/js/main.js' %}"></script>
+<script src="{% static 'food/js/script.js' %}"></script>
+
+
+</body>
+</html>

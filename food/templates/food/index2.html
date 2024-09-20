@@ -1,0 +1,1439 @@
+{% extends 'food/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Royal Taj
+{% endblock %}
+
+{% block content %}
+
+<style>
+  /* Existing styles */
+
+  @media (max-width: 768px) {
+    .tm-list-item-text {
+      flex-direction: column;
+      /* Stack elements vertically on small screens */
+    }
+
+    .picture {
+      margin-top: 0;
+      /* Remove top margin for the image */
+    }
+
+    .tm-list-item-text h3 {
+      margin-top: 10px;
+      /* Add spacing between the name and the price/button */
+    }
+  }
+
+  .carousel-control-prev {
+    left: 0;
+    margin-left: 5%;
+  }
+
+  .carousel-control-next {
+    right: 0;
+    margin-right: 5%;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+
+  header {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  #banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 80px;
+    /* Add rounded border */
+  }
+
+  #card-container {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    /* Add rounded border */
+    margin-right: 20px;
+    /* Add spacing between the sides */
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .card2 {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #373F47;
+    /* Gray background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    /* Rounded border */
+    color: #ffffff;
+    /* White text color */
+    position: relative;
+    /* Add position relative to the card */
+  }
+
+  .image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    /* Rounded border for the image */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    /* Drop shadow for the image */
+  }
+
+  .card2-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    flex-grow: 1;
+    /* Allow the content to grow and take available space */
+  }
+
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    /* Add spacing between title and price */
+  }
+
+  .title {
+    margin: 0;
+    font-size: 24px;
+    word-wrap: break-word;
+    /* Break word to the next line if it's too long */
+  }
+
+  .price-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Align items to the right */
+  }
+
+  .price {
+    font-size: 24px;
+    color: #ffffff;
+  }
+
+  .button {
+    background-color: orange;
+    /* White background color */
+    color: black;
+    /* Gray text color */
+    border: none;
+    padding: 10px;
+    width: 40px;
+    /* Set the width to 30 pixels */
+    height: 40px;
+    /* Set the height to 30 pixels */
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    /* Position the button absolutely */
+    bottom: 10px;
+    /* Align the button to the bottom */
+    right: 10px;
+    /* Align the button to the right */
+    border-radius: 20px;
+  }
+
+  .button:hover {
+    background-color: #cccccc;
+    /* Lighter gray on hover */
+  }
+
+  /* FOR THE BANNER!! */
+
+  /* Add your website styles here */
+
+  .popup-banner {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 80%;
+    max-width: 400px;
+    /* Adjust the maximum width as needed */
+    background-color: #f8d7da;
+    /* Light red background color, you can customize */
+    padding: 10px;
+    text-align: center;
+    overflow-y: auto;
+  }
+
+  .popup-content {
+    color: #721c24;
+    /* Dark red text color, you can customize */
+    font-size: 14px;
+    /* Adjusted font size for better fit on mobile devices */
+  }
+
+  .close-btn {
+    color: #721c24;
+    /* Dark red text color, you can customize */
+    font-size: 24px;
+    /* Adjusted close button font size */
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    /* Adjusted top spacing to avoid overlap with welcome text */
+    right: 10px;
+    padding: 10px;
+    /* Added padding to make the button bigger */
+  }
+
+  .popup-content h2 {
+    margin-top: 20px;
+    /* Adjusted top margin to provide space above the welcome text */
+  }
+
+  .order-info h3,
+  .minimum-order h3,
+  .payment-refund h3 {
+    font-size: 16px;
+    /* Adjusted heading font size */
+  }
+
+  .order-info ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .order-info li {
+    font-size: 14px;
+    /* Adjusted list item font size */
+  }
+
+  .minimum-order h3,
+  .payment-refund h3 {
+    margin-top: 10px;
+  }
+
+  .minimum-order p,
+  .payment-refund p {
+    font-size: 14px;
+    /* Adjusted paragraph font size */
+  }
+
+  .popup-content h3,
+  .popup-content h4 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .popup-content p {
+    margin-bottom: 10px;
+  }
+
+  .popup-content h2,
+  .popup-content h3,
+  .popup-content h4 {
+    font-weight: bold;
+  }
+</style>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="{% static 'food/css/index.css' %}">
+<header>
+  <!-- Replace 'your-image-link.jpg' with the actual link to your image -->
+  <img id="banner-image"
+    src="https://sheranwala.com/wp-content/uploads/2020/11/desi-foods-warm-in-winters-header-img.jpg"
+    alt="Banner Image">
+
+  <div id="card-container">
+    <!-- Place your card content here -->
+    <div id="todays-orders"></div>
+  </div>
+</header>
+
+
+<div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog" aria-labelledby="DetailsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="DetailsModalLabel">Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Content for details goes here -->
+        <h5 id="modalName"></h5>
+        <div>
+          <img class="modal-picture" id="modalPicture" src="" alt="Image">
+        </div>
+        <p id="modalDescription"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Popup Banner -->
+<div id="popup-banner" class="popup-banner">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closeBanner()">×</span>
+    <br>
+    <h2>Welcome to ROYAL TAJ!</h2>
+    <h4>🌟 Introducing Authentic Indian/Pakistani Delights on Sabanci Campus!</h4>
+
+    <div class="order-info">
+      <h3>Ordering Hours:</h3>
+      <ul>
+        <li> - Orders are accepted from 12 pm to 6 pm</li>
+        <li> - Order cutoff time at 6 pm</li>
+        <li> - Deliveries by 8 pm</li>
+        <li> - Order confirmation via email</li>
+      </ul>
+    </div>
+
+    <div class="minimum-order">
+      <h3>🛍️ Minimum Order Basis:</h3>
+      <p>Due to our location, we operate on a minimum order basis of 800 TL (not per person). Don't worry, you can
+        always check the "Today's Orders" section to see what others are enjoying anonymously.</p>
+    </div>
+
+    <div class="payment-refund">
+      <h3>💳 Payment & Refund Policy:</h3>
+      <p>Make your payment for initial order confirmation. In the rare event of delivery failure, we guarantee a full
+        refund.</p>
+    </div>
+
+    <h4>Place your order now and savor the taste of the Royal Taj!</h4>
+    <!-- Add the rest of your banner content here -->
+  </div>
+</div>
+
+
+
+
+<div class="wrapper">
+  <div class="content">
+    <div class="bg-shape">
+      <img src="https://i.imgur.com/AfPwlIO.png" alt="">
+    </div>
+
+    <div class="product-img">
+      {% for item in starters %}
+      <div class="product-img__item" id="img{{ item.id }}">
+        <img src="/media/{{ item.Simage }}" alt="star wars" class="product-img__img">
+      </div>
+      {% endfor %}
+    </div>
+
+
+    <div class="product-slider">
+      <button class="prev disabled">
+        <span class="icon">
+          <svg class="icon icon-arrow-right"><use xlink:href="#icon-arrow-left"></use></svg>
+        </span>
+      </button>
+      <button class="next">
+        <span class="icon">
+          <svg class="icon icon-arrow-right"><use xlink:href="#icon-arrow-right"></use></svg>
+        </span>
+      </button>
+
+      <div class="product-slider__wrp swiper-wrapper">
+        {% for item in starters %}
+        <div class="product-slider__item swiper-slide" data-target="img{{ item.id }}">
+          <div class="product-slider__card">
+            <img src="https://e1.pxfuel.com/desktop-wallpaper/655/684/desktop-wallpaper-dark-green-plain-green.jpg" alt="star wars" class="product-slider__cover">
+            <div class="product-slider__content">
+              <h1 class="product-slider__title">
+                {{ item.name }}
+              </h1>
+              <span class="product-slider__price">{{ item.price }}</span>
+              <div class="product-ctr">
+
+                <span class="hr-vertical"></span>
+
+                <div class="product-inf">
+                </div>
+
+              </div>
+
+              <div class="product-slider__bottom">
+                <button class="product-slider__cart" onclick="addStarter('{{ item.id }}')">
+                  ADD TO CART
+                </button>
+
+                <button class="product-slider__fav js-fav" onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Simage }}')"><span class="heart"></span> VIEW DETAILS</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<svg class="hidden" hidden>
+  <symbol id="icon-arrow-left" viewBox="0 0 32 32">
+    <path d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z"></path>
+  </symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 32 32">
+    <path d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.664z"></path>
+  </symbol>
+</svg>
+
+
+
+
+
+
+
+<div style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <!-- Starter Section -->
+  <div id="starter-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Starter</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:starters' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in starters %}
+      <li data-target="#starter-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in starters %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Simage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between;">
+              <div>
+                <h3 class="tm-list-item-name" id="startert{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="starterp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addStarter('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Simage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#starter-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#starter-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+<!-- Starter Section End -->
+<!-- Rice Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="rice-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Rice and Biryanis</h2>
+      <a class="btn btn-success mx-auto" href="{% url 'food:rice' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for rice in rice %}
+      <li data-target="#rice-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for rice in rice %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each rice item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ rice.Rimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between;">
+              <div>
+                <h3 class="tm-list-item-name" id="rt{{rice.id}}">{{ rice.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="rp{{rice.id}}">{{ rice.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addRice('{{ rice.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ rice.id }}', '{{ rice.name }}', '{{ rice.description }}', '/media/{{ rice.Rimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#rice-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#rice-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Rice section End -->
+<br>
+<!-- Chicken Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="chickenmain-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Chicken Main courses</h2>
+      <label>Served with 2x roti or rice</label>
+      <br>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:chicken' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for chicken in chicken %}
+      <li data-target="#chickenmain-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for chicken in chicken %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each rice item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ chicken.CMimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between;">
+              <div>
+                <h3 class="tm-list-item-name" id="cmt{{chicken.id}}">{{ chicken.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="cmp{{chicken.id}}">{{ chicken.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addChicken('{{ chicken.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ chicken.id }}', '{{ chicken.name }}', '{{ chicken.description }}', '/media/{{ chicken.CMimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#chickenmain-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#chickenmain-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Chicken section End -->
+<br>
+<!-- Vegetarian Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="vegetarian-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Vegetarian</h2>
+      <label>Served with 2x roti or rice</label>
+      <br>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:veg' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in veg %}
+      <li data-target="#vegetarian-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in veg %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each rice item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Vimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between;">
+              <div>
+                <h3 class="tm-list-item-name" id="vegt{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="vegp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addVeg('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Vimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#vegetarian-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#vegetarian-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Vegetarian section End -->
+<br>
+<!-- BBQ Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="bbq-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Tandoori Barbeque</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:bbq' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for bbq in bbq %}
+      <li data-target="#bbq-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for bbq in bbq %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each rice item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ bbq.BBQimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="bbqt{{bbq.id}}">{{ bbq.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="bbqp{{bbq.id}}">{{ bbq.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addBBQ('{{ bbq.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ bbq.id }}', '{{ bbq.name }}', '{{ bbq.description }}', '/media/{{ bbq.BBQimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#bbq-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#bbq-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- BBQ section End -->
+<br>
+<!-- Roti Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="roti-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Breads / Rotis</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:roti' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in roti %}
+      <li data-target="#roti-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in roti %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each roti item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Rimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="rotit{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="rotip{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addRoti('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Rimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#roti-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#roti-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Roti Section End -->
+<br>
+
+<!-- Rolls Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="rolls-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Rolls</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:rolls' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in rolls %}
+      <li data-target="#rolls-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in rolls %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Rimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="rot{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="rop{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addRoll('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Rimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#rolls-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#rolls-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+<!-- Rolls Section End -->
+
+<!-- MB Section -->
+<!--
+<div id="muttonbeef-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+  <div class="text-center" style="padding-top: 10px;">
+    <h2>Mutton and Beef courses</h2>
+    <a class="btn btn-success mx-auto mt-4" href="{% url 'food:mutton_beef' %}">View All</a>
+  </div>
+  <ol class="carousel-indicators">
+    {% for mb in mb %}
+      <li data-target="#muttonbeef-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+
+  <div class="carousel-inner">
+    <div id="notification" class="notification"></div>
+    {% for mb in mb %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+           Your existing content for each rice item goes here
+          <div class="tm-list-item container">
+            <img class="picture"  src="/media/{{ mb.MBimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="mbt{{mb.id}}">{{ mb.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="mbp{{mb.id}}">{{ mb.price }}</h4>
+                <button class="btn btn-success mt-2" onclick="addMuttonBeef('{{ mb.id }}')">Add to cart</button>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+    <a class="carousel-control-prev" href="#muttonbeef-carousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#muttonbeef-carousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  </div>
+-->
+
+
+
+
+
+
+<!-- Chinese Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="chinese-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Chinese</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:chinese' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in chinese %}
+      <li data-target="#chinese-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in chinese %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Cimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="cht{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="chp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addChinese('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Cimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#chinese-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#chinese-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+<!-- Chinese Section End -->
+
+
+<!-- Saute Section
+
+<div id="saute-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+  <!-- Indicators (optional)
+  <div class="text-center" style="padding-top: 10px;">
+    <h2>Mixed Chicken Saute Dishes</h2>
+    <a class="btn btn-success mx-auto mt-4" href="{% url 'food:saute' %}">View All</a>
+  </div>
+  <ol class="carousel-indicators">
+    {% for item in saute %}
+      <li data-target="#saute-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+
+  <!-- Carousel items
+  <div class="carousel-inner">
+    <div id="notification" class="notification"></div>
+    {% for item in saute %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each rice item goes here
+          <div class="tm-list-item container">
+            <img class="picture"  src="/media/{{ item.CSimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="st{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="sp{{item.id}}">{{ item.price }}</h4>
+                <button class="btn btn-success mt-2" onclick="addSaute('{{ item.id }}')">Add to cart</button>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+    <a class="carousel-control-prev" href="#saute-carousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#saute-carousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  </div>
+
+ -->
+
+
+<!-- Burgers Section
+<div id="burger-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+  <!-- Indicators (optional)
+  <div class="text-center" style="padding-top: 10px;">
+    <h2>Burgers</h2>
+    <a class="btn btn-success mx-auto mt-4" href="{% url 'food:burger' %}">View All</a>
+  </div>
+  <ol class="carousel-indicators">
+    {% for item in burger %}
+      <li data-target="#burger-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+
+  <!-- Carousel items
+  <div class="carousel-inner">
+    <div id="notification" class="notification"></div>
+    {% for item in burger %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here
+          <div class="tm-list-item container">
+            <img class="picture"  src="/media/{{ item.Bimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="bt{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="bp{{item.id}}">{{ item.price }}</h4>
+                <button class="btn btn-success mt-2" onclick="addBurger('{{ item.id }}')">Add to cart</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+    <a class="carousel-control-prev" href="#burger-carousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#burger-carousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+  -->
+
+
+
+<!-- Durum Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="durum-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Durums</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:durum' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in durum %}
+      <li data-target="#durum-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in durum %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Simage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="durumt{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="durump{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addDurum('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Simage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#durum-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#durum-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Durum Section End -->
+<br>
+
+
+
+
+
+<!-- Soup Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="soup-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Soups</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:soup' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in soup %}
+      <li data-target="#soup-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in soup %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Simage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="soupt{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="soupp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addSoup('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Simage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#soup-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#soup-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+<!-- Soup Section End -->
+
+
+<!-- Salad Section
+<div id="salads-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+  <!-- Indicators (optional)
+  <div class="text-center" style="padding-top: 10px;">
+    <h2>Salads</h2>
+    <a class="btn btn-success mx-auto mt-4" href="{% url 'food:salads' %}">View All</a>
+  </div>
+  <ol class="carousel-indicators">
+    {% for item in salads %}
+      <li data-target="#salads-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+
+  <!-- Carousel items
+  <div class="carousel-inner">
+    <div id="notification" class="notification"></div>
+    {% for item in salads %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here
+          <div class="tm-list-item container">
+            <img class="picture"  src="/media/{{ item.Simage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4" style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="saladt{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="saladp{{item.id}}">{{ item.price }}</h4>
+                <button class="btn btn-success mt-2" onclick="addSalads('{{ item.id }}')">Add to cart</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+    <a class="carousel-control-prev" href="#salads-carousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#salads-carousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<!-- Salad Section End -->
+
+<!-- Sweet Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="sweet-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Sweet</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:sweet' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in sweet %}
+      <li data-target="#sweet-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in sweet %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Simage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="sweett{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="sweetp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addSweet('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Simage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#sweet-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#sweet-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+<!-- Sweet Section End -->
+
+<!-- Drinks Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="drinks-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Drinks</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:drinks' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in drinks %}
+      <li data-target="#drinks-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in drinks %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Dimage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="drinkt{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="drinkp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addDrink('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Dimage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#drinks-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#drinks-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Drinks Section End -->
+<br>
+<!-- Addons Section -->
+<div
+  style="width: 90%; border: 3px solid #cbddd2; border-radius: 10px; padding: 20px; margin: 10px; margin:auto; background-color: rgb(245, 245, 239); box-shadow: 5px 5px 25px #888888;">
+  <div id="addons-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Indicators (optional) -->
+    <div class="text-center" style="padding-top: 10px;">
+      <h2>Addons</h2>
+      <a class="btn btn-success mx-auto mt-4" href="{% url 'food:addons' %}">View All</a>
+    </div>
+    <ol class="carousel-indicators">
+      {% for item in addons %}
+      <li data-target="#addons-carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div id="notification" class="notification"></div>
+      {% for item in addons %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="tm-list-item container">
+          <!-- Your existing content for each burger item goes here -->
+          <div class="tm-list-item container">
+            <img class="picture" src="/media/{{ item.Simage }}" alt="Image">
+            <div class="tm-black-bg tm-list-item-text ml-4 mr-4"
+              style="display: flex; justify-content: space-between; ">
+              <div>
+                <h3 class="tm-list-item-name" id="addont{{item.id}}">{{ item.name }}</h3>
+              </div>
+              <div>
+                <h4 class="tm-list-item-price" id="addonp{{item.id}}">{{ item.price }}</h4>
+                <button type="button" class="btn btn-success mt-2" onclick="addAddon('{{ item.id }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png" alt="add" />
+                </button>
+                <button type="button" class="btn btn-success mt-2"
+                  onclick="showDetails('{{ item.id }}', '{{ item.name }}', '{{ item.description }}', '/media/{{ item.Simage }}')">
+                  <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+      <a class="carousel-control-prev" href="#addons-carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#addons-carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+
+
+
+<!-- Salad Section End -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js'></script>
+<script src="{% static 'food/js/order.js' %}"></script>
+<script src="{% static 'food/js/main.js' %}"></script>
+<script src="{% static 'food/js/script.js' %}"></script>
+
+<script>
+  // Add this script to your script.js file or within a script tag in your HTML file
+
+  // Function to close the popup banner
+  function closeBanner() {
+    document.getElementById("popup-banner").style.display = "none";
+  }
+
+  // Function to check if the popup banner should be displayed (e.g., on first visit)
+  function checkFirstVisit() {
+    if (!localStorage.getItem("visited")) {
+      // Show the popup banner
+      document.getElementById("popup-banner").style.display = "block";
+      // Set a flag in local storage to indicate that the user has visited
+      localStorage.setItem("visited", true);
+    }
+  }
+
+  // Attach the click and touchend events to the close button
+  document.querySelector(".close-btn").addEventListener("click", closeBanner);
+  document.querySelector(".close-btn").addEventListener("touchend", closeBanner);
+
+  // Call the checkFirstVisit function when the page loads
+  window.onload = checkFirstVisit;
+
+</script>
+<script>
+  function showDetails(Id, Name, Description, Image) {
+    // Update modal content
+    document.getElementById('modalName').innerText = Name;
+    document.getElementById('modalDescription').innerText = Description;
+    document.getElementById('modalPicture').src = Image;
+    // Show the modal
+    $('#DetailsModal').modal('show');
+  }
+</script>
+{% endblock %}

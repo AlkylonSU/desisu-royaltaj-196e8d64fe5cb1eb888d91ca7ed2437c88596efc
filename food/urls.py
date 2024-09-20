@@ -1,0 +1,56 @@
+from django.urls import path
+from . import views
+
+app_name = 'food'
+
+urlpatterns = [
+    path('rice', views.rice, name = 'rice'),
+    path('chicken', views.chicken, name = 'chicken'),
+    path('mutton_beef', views.mutton_beef, name='mutton_beef'),
+    path('bbq', views.bbq, name='bbq'),
+    path('roti', views.roti, name='roti'),
+    path('starters', views.starters, name='starters'),
+    path('pasta', views.pasta, name='pasta'),
+    path('durum', views.durum, name='durum'),
+    path('chinese', views.chinese, name='chinese'),
+    path('veg', views.veg, name='veg'),
+    path('sweet', views.sweet, name='sweet'),
+    path('addons', views.addons, name='addons'),
+    path('drinks', views.drinks, name='drinks'),
+    path('burger', views.burger, name='burger'),
+    path('rolls', views.rolls, name='rolls'),
+    path('salads', views.salads, name='salads'),
+    path('soup', views.soup, name='soup'),
+    path('saute', views.saute, name='saute'),
+    path('order', views.order, name = 'order'),
+    path('success', views.success, name = 'success'),
+    path('signup', views.signup, name = 'signup'),
+    path('employee', views.employee, name = 'employee'),
+    path('dispatchRider', views.dispatchRider, name = 'dispatchRider'),
+    path('arrived', views.arrived, name = 'arrived'),
+    path('verify_otp', views.verify_otp, name = 'verify_otp'),
+    path('login', views.logIn, name = 'login'),
+    path('logout', views.logOut, name = 'logout'),
+    path('reset_password', views.reset_password, name = 'reset_password'),
+    path('verify_reset_otp', views.verify_reset_otp, name = 'verify_reset_otp'),
+    path('profile', views.profile, name = 'profile'),
+    path('topup', views.topup, name = 'topup'),
+    path('about_us', views.about_us, name = 'about_us'),
+    path('addToWallet', views.addToWallet, name = 'addToWallet'),
+    path('all_orders', views.same_date_orders, name = 'all_orders'),
+    path('summary', views.summary, name = 'summary'),
+    path('food/cancel_order/<str:number>/', views.cancel_order, name='cancel_order'),
+    path('food/prepare/<str:number>/', views.prepare, name="prepare"),
+    path('api/get_orders_received_today/', views.get_orders_received_today, name='get_orders_received_today'),
+    path('check_wallet_balance/', views.check_wallet_balance, name='check_wallet_balance'),
+    path('submit_payment/', views.payment_submission, name='payment_submission'),    
+    path('reply/<int:feedback_id>', views.reply, name='reply'),  
+    path('unsub/<str:username>/', views.unsub, name="unsub"),
+    path('download_excel', views.download_excel, name="download_excel"),
+    path('api/confirm_orders/' , views.confirm_orders, name='confirm_orders'),
+    path('feedback', views.feedback, name='feedback'),
+    path('allMessages', views.allMessages, name='allMessages'),
+    path('support', views.support, name='support')
+]
+
+

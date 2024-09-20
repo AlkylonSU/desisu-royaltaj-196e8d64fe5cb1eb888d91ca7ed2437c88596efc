@@ -1,0 +1,179 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Chicken Main Course {% endblock %}
+
+{% block content %}
+    <style>
+        .cardfood {
+            background-color: #5b646d;
+            border: none;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
+            /* Add box shadow */
+            color: white;
+            border-radius: 10px;
+            /* Add rounded corners to the card */
+            margin-bottom: 20px;
+            /* Add margin between cards */
+        }
+
+        .cardfood img {
+            border-top-left-radius: 10px;
+            /* Add rounded corners to the top-left of the image */
+            border-top-right-radius: 10px;
+            /* Add rounded corners to the top-right of the image */
+            background-color: rgba(40, 155, 5, 0.164);
+        }
+
+        .button {
+            border: none;
+            color: white;
+            padding: 8px 10px;  
+            margin-bottom: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 8px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .btn-orange {
+            background-color: rgb(20, 165, 248);
+        }
+        .chicken-section {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .chicken-labels__title {
+    background-color: #7a7a77;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+
+  .chicken-labels__item {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .chicken-labels__item:hover {
+    background-color: #c0bbbb1a;
+  }
+
+  .chicken-labels__checkbox {
+    display: none;
+  }
+
+  .chicken-labels__txt {
+    display: block;
+    font-size: 14px;
+    color: #333;
+  }
+    </style>
+<link rel="stylesheet" href="{% static 'food/css/chicken.css' %}">
+
+    <h2 class = "title">Chicken Main Course:</h2>
+
+    <div class="modal fade" id="chickenDetailsModal" tabindex="-1" role="dialog" aria-labelledby="chickenDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chickenDetailsModalLabel">Chicken Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Content for chicken details goes here -->
+                    <h5 id="modalchickenName"></h5>
+                    <div>
+                        <img class="modal-picture" id="modalchickenPicture" src="" alt="chicken Image" style="max-width: 100%;"> 
+                    </div>
+                    <p id="modalchickenDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            {% for chicken in chicken %}
+            <div class="col-md-4 mb-3" style="padding: 20px;">
+                <div class="cardfood">
+                    <img src="/media/{{ chicken.CMimage }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="...">
+                    <div id="notification" class="notification">Notification Message</div>
+                    <div class="cardfood-body">
+                        <h2 class="cardfood-title" style="padding-left: 20px; padding-top: 20px;" id="cmt{{chicken.id}}">{{ chicken.name }}</h2>
+                        <h5 class="cardfood-text" style="padding-left: 20px;" id="cmp{{chicken.id}}">{{ chicken.price }}</h5>
+                        <div class="chicken-labels mt-2" style="padding: 20px;">
+                            <div class="chicken-section">
+                                <div class="chicken-labels__title">PICK A SIDE</div>
+                                <div class="chicken-labels__group">
+                                  <label class="chicken-labels__item">
+                                    <input type="radio" class="chicken-labels__checkbox" name="chickenOption{{chicken.id}}" value="roti">
+                                    <span class="chicken-labels__txt" style="color: white;">ROTI</span>
+                                  </label>
+                                  <label class="chicken-labels__item">
+                                    <input type="radio" class="chicken-labels__checkbox" name="chickenOption{{chicken.id}}" checked value="rice">
+                                    <span class="chicken-labels__txt" style="color: white;">RICE</span>
+                                  </label>
+                                </div>
+                              </div>
+                              
+                              <div class="chicken-section">
+                                <div class="chicken-labels__title">SPICE LEVEL</div>
+                                <div class="chicken-labels__group">
+                                  <label class="chicken-labels__item">
+                                    <input type="radio" class="chicken-labels__checkbox" name="chickenSpice{{chicken.id}}" value="Low">
+                                    <span class="chicken-labels__txt" style="color: white;">LOW</span>
+                                  </label>
+                                  <label class="chicken-labels__item">
+                                    <input type="radio" class="chicken-labels__checkbox" name="chickenSpice{{chicken.id}}" checked value="Normal">
+                                    <span class="chicken-labels__txt" style="color: white;">NORMAL</span>
+                                  </label>
+                                  <label class="chicken-labels__item">
+                                    <input type="radio" class="chicken-labels__checkbox" name="chickenSpice{{chicken.id}}" value="High">
+                                    <span class="chicken-labels__txt" style="color: white;">HIGH</span>
+                                  </label>
+                                </div>
+                              </div>
+        
+                          </div> 
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="button btn-orange me-2" style="margin-bottom: 10px;"
+                                onclick="addChicken('{{ chicken.id }}')">
+                                <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png"
+                                    alt="add" />
+                            </button>   
+                            <button type="button" class="button btn-orange"
+                                style="margin-bottom: 10px; margin-right: 10px;"
+                                onclick="showDetails('{{ chicken.id }}', '{{ chicken.name }}', '{{ chicken.description }}', '/media/{{ chicken.CMimage }}')">
+                                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png"
+                                    alt="menu-2" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{% static 'food/js/order.js' %}"></script>
+    <script>
+        function showDetails(chickenId, chickenName, chickenDescription, cImage) {
+            // Update modal content
+            document.getElementById('modalchickenName').innerText = chickenName;
+            document.getElementById('modalchickenDescription').innerText = chickenDescription;
+            document.getElementById('modalchickenPicture').src = cImage
+            // Show the modal
+            $('#chickenDetailsModal').modal('show');
+        }
+    </script>
+{% endblock %}

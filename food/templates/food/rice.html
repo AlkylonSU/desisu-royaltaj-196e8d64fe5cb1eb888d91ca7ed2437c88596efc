@@ -1,0 +1,177 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Rice and Biryani {% endblock %}
+
+{% block content %}
+
+<head>
+    <style>
+        .cardfood {
+            background-color: #5b646d;
+            border: none;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
+            /* Add box shadow */
+            color: white;
+            border-radius: 10px;
+            /* Add rounded corners to the card */
+            margin-bottom: 20px;
+            /* Add margin between cards */
+        }
+
+        .cardfood img {
+            border-top-left-radius: 10px;
+            /* Add rounded corners to the top-left of the image */
+            border-top-right-radius: 10px;
+            /* Add rounded corners to the top-right of the image */
+            background-color: rgba(40, 155, 5, 0.164);
+        }
+
+        .button {
+            border: none;
+            color: white;
+            padding: 8px 10px;  
+            margin-bottom: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 8px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .btn-orange {
+            background-color: rgb(20, 165, 248);
+        }
+        .rice-section {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .rice-labels__title {
+    background-color: #7a7a77;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+
+  .rice-labels__item {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .rice-labels__item:hover {
+    background-color: #c0bbbb1a;
+  }
+
+  .rice-labels__checkbox {
+    display: none;
+  }
+
+  .rice-labels__txt {
+    display: block;
+    font-size: 14px;
+    color: #ffffff;
+  }
+    </style>
+    </style>
+    <link rel="stylesheet" href="{% static 'food/css/rice.css' %}">
+</head>
+
+<body>
+
+    <h2 class="title">Rice and Biryanis:</h2>
+
+    <div class="modal fade" id="riceDetailsModal" tabindex="-1" role="dialog" aria-labelledby="riceDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="riceDetailsModalLabel">Rice Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Content for Rice details goes here -->
+                    <h5 id="modalRiceName"></h5>
+                    <div>
+                        <img class="modal-picture" id="modalRiceImage" src="" alt="Rice Image" style="max-width: 100%;">
+                    </div>
+                    <p id="modalRiceDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            {% for rice in rice %}
+            <div class="col-md-4 mb-3" style="padding: 20px;">
+                <div class="cardfood">
+                    <img src="/media/{{ rice.Rimage }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="...">
+                    <div id="notification" class="notification">Notification Message</div>
+                    <div class="cardfood-body">
+                        <h2 class="cardfood-title" style="padding-left: 20px; padding-top: 20px;" id="rt{{rice.id}}">{{rice.name }}</h2>
+                        <h5 class="cardfood-text" style="padding-left: 20px;" id="rp{{rice.id}}">{{ rice.price }}</h5>
+                        <div class="rice-labels mt-2" style="padding: 20px;">
+                              <div class="rice-labels__title">SPICE LEVEL</div>
+            
+                              <div class="rice-labels__group">
+                                <label class="rice-labels__item">
+                                  <input type="radio" class="rice-labels__checkbox" name="riceSpice{{rice.id}}" value="Low">
+                                  <span class="rice-labels__txt">LOW</span>
+                                </label>
+            
+                                <label class="rice-labels__item">
+                                  <input type="radio" class="rice-labels__checkbox" name="riceSpice{{rice.id}}" checked value="Normal">
+                                  <span class="rice-labels__txt" >NORMAL</span>
+                                </label>  
+                                <label class="rice-labels__item">
+                                  <input type="radio" class="rice-labels__checkbox" name="riceSpice{{rice.id}}" value="High">
+                                  <span class="rice-labels__txt" >HIGH</span>
+                                </label>  
+                              </div>  
+        
+                          </div> 
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="button btn-orange me-2" style="margin-bottom: 10px;"
+                                onclick="addRice('{{ rice.id }}')">
+                                <img width="30" height="30" src="https://img.icons8.com/material-outlined/30/add.png"
+                                    alt="add" />
+                            </button>
+                            <button type="button" class="button btn-orange"
+                                style="margin-bottom: 10px; margin-right: 10px;"
+                                onclick="showDetails('{{ rice.id }}', '{{ rice.name }}', '{{ rice.description }}', '/media/{{ rice.Rimage }}')">
+                                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/menu-2.png"
+                                    alt="menu-2" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{% static 'food/js/order.js' %}"></script>
+    <script>
+        function showDetails(riceId, riceName, riceDescription, rImage) {
+            // Update modal content
+            document.getElementById('modalRiceName').innerText = riceName;
+            document.getElementById('modalRiceDescription').innerText = riceDescription;
+            document.getElementById('modalRiceImage').src = rImage;
+
+            // Show the modal
+            $('#riceDetailsModal').modal('show');
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+</body>
+{% endblock %}

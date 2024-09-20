@@ -1,0 +1,124 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+<h1 class="pt-3 text-center" style="padding: 20px;">Welcome {{ user.first_name }}</h1>
+<div class="rounded-container" style="text-align: center; width: 50%; margin: 0 auto;">
+    {% if messages %}
+        {% for message in messages %}
+            <h5{% if message.tags %} class="{{ message.tags }} pt-2"{% endif %}>{{ message }}</h5>
+        {% endfor %}
+    {% endif %}
+
+    <h3 class="pt-4">Your details are as follows:</h3>
+    <div class="d-flex justify-content-between p-5">
+        <div class="rounded-container-inner" style="text-align: center; margin: 0 auto;">
+            <h5 class="pt-3">First Name: {{ user.first_name }}</h5>
+            <h5 class="pt-3">Last Name: {{ user.last_name }}</h5>
+            <h5 class="pt-3">Phone Number: {{ user.phone_number }}</h5>
+        </div>
+    </div>
+    <h3 class="pt-4">Orders:</h3>
+    <button id="toggleTodayOrders" class="btn btn-success mb-3">Show Today's Orders</button>
+    <div id="todayOrdersContainer" class="table pt-3" style="display: none;">
+        <h4>Today's Orders</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Confirmed</th>
+                    <th>Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in today_orders %}
+                <tr>
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.total }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.confirmed }}</td>
+                    {% if order.date == today_date %}
+                        <td><a href="{% url 'food:cancel_order' order.number %}" class="btn btn-danger">Cancel</a></td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No orders today.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <button id="togglePastOrders" class="btn btn-success mb-3">Show Past Orders</button>
+    <div id="pastOrdersContainer" class="table pt-3" style="display: none;">
+        <h4>Past Orders</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Confirmed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in past_orders %}
+                <tr>
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.total }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.confirmed }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No past orders.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    .rounded-container-inner {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    /* Media Query for smaller screens */
+    @media (max-width: 768px) {
+        .rounded-container {
+            width: 100% !important;
+        }
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var todayOrdersContainer = document.getElementById('todayOrdersContainer');
+        var toggleTodayOrdersButton = document.getElementById('toggleTodayOrders');
+        
+        var pastOrdersContainer = document.getElementById('pastOrdersContainer');
+        var togglePastOrdersButton = document.getElementById('togglePastOrders');
+
+        toggleTodayOrdersButton.addEventListener('click', function () {
+            if (todayOrdersContainer.style.display === 'none') {
+                todayOrdersContainer.style.display = 'block';
+            } else {
+                todayOrdersContainer.style.display = 'none';
+            }
+        });
+
+        togglePastOrdersButton.addEventListener('click', function () {
+            if (pastOrdersContainer.style.display === 'none') {
+                pastOrdersContainer.style.display = 'block';
+            } else {
+                pastOrdersContainer.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

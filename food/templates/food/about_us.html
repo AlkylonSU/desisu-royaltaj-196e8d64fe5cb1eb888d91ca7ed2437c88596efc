@@ -1,0 +1,53 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} About Us {% endblock %}
+
+{% block content %}
+<style>
+    .rounded-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f8f8;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    h2, h3 {
+        color: #333;
+    }
+
+    p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    h3 {
+        margin-top: 20px;
+    }
+
+    /* Add any additional styles based on your design preferences */
+</style>
+
+<div class="rounded-container">
+    <h2 class="text-center">About Us</h2>
+    <p>Welcome to Royal Taj, your home for authentic Indian and Pakistani cuisine in Pendik and Kurtkoy! With a legacy spanning four years, we take pride in bringing the true essence of Indian and Pakistani dishes to your plate.</p>
+ <!-- Add the image here -->
+    <img src="/media/RoyalTaj.jpg" alt="Royal Taj Restaurant" style="max-width: 100%; border-radius: 10px; margin-top: 20px; margin-bottom: 20px">
+    <h3>🌟 Our Mission:</h3>
+    <p>At Royal Taj, we strive for excellence and aim to deliver a taste experience that goes beyond the ordinary. Our commitment to quality ingredients and traditional recipes ensures each dish is a celebration of flavor.</p>
+
+    <h3>👩‍🍳 Chef's Specials:</h3>
+    <p>Explore a diverse menu curated by our skilled chefs who infuse passion into every creation. From classic favorites to innovative delights, there's something to satisfy every palate.</p>
+
+    <h3>🎓 Student Subsidies:</h3>
+    <p>We understand the importance of good food on a student's journey. That's why we've introduced subsidized rates exclusively for Sabanci students. Quality meals at affordable prices - because great taste should be accessible to everyone.</p>
+
+    <h3>📍 Our Locations:</h3>
+    <p>Visit us in Pendik and Kurtkoy to experience a culinary journey that transports you to the heart of India and Pakistan. Our warm and inviting ambiance complements the richness of our dishes.</p>
+
+    <h3>🤝 Thank You for Four Wonderful Years:</h3>
+    <p>As we celebrate four years of serving you, we express our gratitude for your continued support. Join us at Royal Taj, where every meal is a celebration of tradition, taste, and togetherness.</p>
+</div>
+{% endblock %}

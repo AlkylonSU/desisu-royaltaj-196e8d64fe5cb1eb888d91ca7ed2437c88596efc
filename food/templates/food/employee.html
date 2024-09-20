@@ -1,0 +1,100 @@
+{% extends 'food/base.html' %}
+{% load static %}
+{% block title %} Employee Menu {% endblock %}
+
+{% block content %}
+    <style>
+        .commands-container {
+            text-align: center;
+        }
+
+        .small-text {
+            display: block;
+            margin-top: -15px; /* Adjust the margin to align it properly */
+        }
+    </style>
+<div class="rounded-container" style="text-align: center; padding-bottom: 80px;">
+<div class="commands-container">
+        <h1 style="padding-bottom: 40px; padding-top: 40px;">Commands</h1>
+        <small class="small-text">Do not use the download button before 5 pm</small>
+        <a class="btn btn-success mr-4" href="{% url 'food:dispatchRider' %}">Dispatch Rider</a>
+        <a class="btn btn-success mr-4" href="{% url 'food:download_excel' %}">Download Excel file</a>
+        <a class="btn btn-success mr-4" href="{% url 'food:summary' %}">View Summary</a>
+    </div>
+
+    <h1 style="text-align: center; padding-bottom: 40px; padding-top: 40px;">Orders placed today</h1>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            text-align: center;
+            width: 90%;
+            margin: 0 auto;  /* Center the table */
+            border-radius: 10px;  /* Add rounded border */
+            overflow: hidden;  /* Ensure the border radius is applied */
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #381f1f;
+            text-align: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        td {
+            padding-left: 20px;  /* Adjust the value to your preference */
+            font-size: 20px;
+
+        }
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Items</th>
+                <th>Phone number</th>
+                <th>Address</th>
+                <th>Total (Inlcuding delivery)</th>
+                <th>Note / Special request</th>
+                <th>Preparation status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                <td>
+                    <ul>
+                        {% for item in order.item_set.all %}
+                            <li>{{ item.name }}, Price: {{ item.price }} TL</li>
+                        {% endfor %}
+                        <li>Delivery charges: 10 TL </li>
+                    </ul>
+                </td>
+                <td>{{ order.customer.phone_number }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.total|add:10 }} TL</td>
+                <td>{{ order.note }}</td>
+                {% if order.prepared == False %}
+                <td><a href="{% url 'food:prepare' order.number %}" class="btn btn-danger">Prepare</a></td>
+                {% else %}
+                <td>Already prepared</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+@media (max-width: 768px) {
+    table {
+        width: 100% !important;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'food/base.html' %}
+
+{% load static %}
+
+{% block title %}
+DESI-SU Home
+{% endblock %}
+
+{% block content %}
+<form id="upload-form" method="post" action="{% url 'food:addToWallet' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="rounded-container">
+        {% if messages %}
+            {% for message in messages %}
+                <h5{% if message.tags %} class="{{ message.tags }} pt-2"{% endif %}>{{ message }}</h5>
+            {% endfor %}
+        {% endif %}
+        <h1 class="pt-3">Welcome {{ user.first_name }}</h1>
+        <h3 class="pt-3">Please enter the amount you would like to add to your wallet:</h3>
+        <input type="text" name="topup" id="topup" placeholder="Amount" required class="custom-input">
+        <br>
+        <h3>Please upload your transfer receipt:</h3>
+        <input class="pl-4 pt-3 mb-4" type="file" name="image" id="image" accept="image/*">
+        <br>
+        <button type="submit" class="btn btn-success ml-4 mb-4">Upload</button>
+    </div>
+</form>
+
+
+<script src="{% static 'food/js/main.js' %}"></script>
+{% endblock %}
+
+
